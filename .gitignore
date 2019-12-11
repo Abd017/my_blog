@@ -1,0 +1,12 @@
+*.pyc
+*~
+/.vscode
+__pycache__
+Include
+Lib
+Scripts
+tcl
+static_cdn_test
+.idea
+src/db.sqlite3
+.DS_Store
