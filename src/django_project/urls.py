@@ -16,8 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-
-from blog.views import blog_post_create_view
 from .views import contact_page, home_page
 from searches.views import search_view
 
@@ -25,9 +23,10 @@ urlpatterns = [
     path('search/', search_view),
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
-    path('blog-new/', blog_post_create_view),
+
     path('contact/', contact_page,),
-    path('', home_page,)
+    path('', home_page,),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:

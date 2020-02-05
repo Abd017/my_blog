@@ -3,14 +3,17 @@
 {% block content %}
 
 {% if title %}
-    <h1>{{ title }}</h1>
-{% endif %}
+    <div class="container-fluid justify-text-center">
+        <h3 >{{ title }}</h3>
+    </div>
 
+{% endif %}
+<div class="container-fluid pt-3" >
 <form method="POST" action='.' enctype="multipart/form-data" >
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Send</button>
+    <button type="submit">Publish</button>
 </form>
-
+</div>
 
 {% endblock %}

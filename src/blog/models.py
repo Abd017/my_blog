@@ -48,6 +48,10 @@ class BlogPost(models.Model):
 
     class Meta:
         ordering = ['-published_date', '-updated', '-timestamp']
+        permissions = (
+            ("view_blog", "Can view the blog"),
+            ("can_publish_blog", "Can publish a blog"),
+        )
 
     def get_absolute_url(self):
         return f"/blog/{self.slug}"

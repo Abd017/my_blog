@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 LOGIN_URL = '/login'
+LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
 
@@ -132,3 +133,5 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(LOCAL_STATIC_CDN_PATH, "media")
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL='/'

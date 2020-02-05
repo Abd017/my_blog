@@ -6,15 +6,25 @@ class BlogPostForm(forms.Form):
     title = forms.CharField()
     slug = forms.SlugField()
     content = forms.CharField(widget=forms.Textarea)
+    published_date = forms.DateTimeField(widget=forms.TextInput(attrs=
+                                {
+                                    'class':'datepicker'
+                                }))
 
 
 class BlogPostModelForm(forms.ModelForm):
+
+    ##published_date = forms.DateTimeField(attrs={'placeholder':"YYYY-MM-DD"})
 
     class Meta:
         model = BlogPost
         fields = [
             'title', 'image', 'slug', 'content', 'published_date'
         ]
+        widgets = {
+            'published_date': forms.DateTimeInput(attrs={'placeholder':'YYYY-MM-DD HH:MM:SS'})
+        }
+
 
     def clean_title(self, *args, **kwargs):
         instance = self.instance

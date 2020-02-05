@@ -4,7 +4,7 @@ from django import forms
 class ContactForm(forms.Form):
     Full_name = forms.CharField()
     email = forms.EmailField()
-    content = forms.CharField(widget=forms.Textarea)
+    query = forms.CharField(widget=forms.Textarea)
 
     def clean_email(self, *args, **kwargs):
         email = self.cleaned_data.get('email')
