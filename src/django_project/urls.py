@@ -20,13 +20,12 @@ from .views import contact_page, home_page
 from searches.views import search_view
 
 urlpatterns = [
+    path('', home_page, name='home'),
+    path('', include('account.urls')),
+    path('contact/', contact_page,),
     path('search/', search_view),
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
-
-    path('contact/', contact_page,),
-    path('', home_page,),
-    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:

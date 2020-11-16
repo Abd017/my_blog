@@ -3,13 +3,5 @@
 {% block content %}
     <div class="row">
         {% include "blog/list-inline.html" with blog_post=object detail=True %}
-        <div class="nav justify-content-end">
-            {% if request.user.is_authenticated %}
-                {% if request.user == object.user or request.user.is_superuser %}
-                    <p><a href="{{object.get_edit_url}}">Edit</a> |
-                    <a href="{{object.get_delete_url}}">Delete</a></p>
-                {% endif %}
-            {% endif %}
-        </div>
     </div>
 {% endblock %}
