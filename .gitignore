@@ -10,3 +10,6 @@ static_cdn_test
 .idea
 src/db.sqlite3
 .DS_Store
+/src/account/migrations/
+/src/blog/migrations/
+/src/searches/migrations/
