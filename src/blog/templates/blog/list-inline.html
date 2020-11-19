@@ -3,16 +3,19 @@
 <div class="card {% if not blog_post.published_date %} border border-warning text-dark {%endif%}">
     <div class="card-body">
         <div class="pb-3">
-        {% if blog_post.image %}
-            <a href="{{blog_post.get_absolute_url}}">
-            <img src="{{ blog_post.image.url }}" class="img-fluid" >
-            </a>
-        {% endif %}
-    </div>
+            {% if blog_post.image %}
+                <a href="{{blog_post.get_absolute_url}}">
+                <img src="{{ blog_post.image.url }}" class="img-fluid" >
+                </a>
+            {% endif %}
+        </div>
 
         <h5 class="card-title">{{ blog_post.title }}</h5>
         <p class="card-text">
-            <small class="text-muted">Published by: <span class="badge badge-secondary">{{blog_post.user}}</span> on {{blog_post.published_date}}</small>
+            {% if not blog_post.published_date %} <small class="text-muted">Drafted by: <span class="badge badge-secondary">{{blog_post.user}}</span></small>
+            {% else %} <small class="text-muted">Published by: <span class="badge badge-secondary">{{blog_post.user}}</span> on {{blog_post.published_date}}</small>
+            {% endif %}
+
             {% if truncate %}
                 {{blog_post.content|linebreaks|truncatewords:30}}
             {% else %}
@@ -21,7 +24,6 @@
         </p>
         <p style="font-size: small "></p>
         {% if not detail %}
-            {% if not blog_post.published_date %} Draft {% endif %}
             <a href="{{blog_post.get_absolute_url}}">View</a>
         {% else %}
             {% if request.user.is_authenticated %}

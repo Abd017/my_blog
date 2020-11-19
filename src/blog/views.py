@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import BlogPost
@@ -7,22 +8,19 @@ from .forms import BlogPostModelForm
 def blog_post_list_view(request):
     # list/search out object
     qs = BlogPost.objects.all().published()
-    print(qs)
     if request.user.is_authenticated:
         my_qs = BlogPost.objects.filter(user=request.user)
         qs = (qs | my_qs).distinct()
     context = {
         'object_list': qs
     }
-    print(qs)
     return render(request, 'blog/list.html', context)
 
 
 @login_required
 def blog_post_create_view(request):
+    form = BlogPostModelForm(request.POST or None, request.FILES or None)
     if request.user.is_active:
-        form = BlogPostModelForm(request.POST or None, request.FILES or None)
-        print(form)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.user = request.user
@@ -31,7 +29,9 @@ def blog_post_create_view(request):
 
     context = {
         'form': form,
-        'title': "Create your blog here"
+        'title': "Create",
+        'heading': "Create your blog here",
+        'value': "Create"
     }
     return render(request, 'form.html', context)
 
@@ -50,14 +50,18 @@ def blog_post_detail_view(request, slug):
 @login_required
 def blog_post_update_view(request, slug):
     obj = get_object_or_404(BlogPost, slug=slug)
+    if request.user != obj.user:
+        raise PermissionDenied
+
     form = BlogPostModelForm(data=request.POST or None, files=request.FILES or None, instance=obj)
     if form.is_valid():
         form.save()
         slug = form.cleaned_data["slug"]
         return redirect(blog_post_detail_view, slug=slug)
     context = {
-        'title': f"Update {obj.title}",
+        'heading': f"Update {obj.title}",
         'form': form,
+        'value': "Update"
     }
     return render(request, 'form.html', context)
 
@@ -68,6 +72,8 @@ def blog_post_update_view(request, slug):
 def blog_post_delete_view(request, slug):
     if request.user.is_active:
         obj = get_object_or_404(BlogPost, slug=slug)
+        if request.user != obj.user:
+            raise PermissionDenied
         if request.method == "POST":
             obj.delete()
             return redirect("/blog")

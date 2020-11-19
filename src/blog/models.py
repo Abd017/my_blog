@@ -16,7 +16,7 @@ class BlogPostQuerySet(models.QuerySet):
                 Q(user__username__icontains=query) |
                 Q(slug__icontains=query)
         )
-        return self.filter(lookup)
+        return self.filter(lookup).filter(published_date__isnull=False)
 
 
 class BlogPostManager(models.Manager):
@@ -45,7 +45,7 @@ class BlogPost(models.Model):
     objects = BlogPostManager()
 
     class Meta:
-        ordering = ['-published_date', '-updated', '-timestamp']
+        ordering = ['-timestamp', '-published_date', '-updated']
 
     def get_absolute_url(self):
         return f"/blog/{self.slug}"

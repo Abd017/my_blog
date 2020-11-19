@@ -17,10 +17,10 @@ def login(request):
             auth_login(request, user)
             return redirect('/blog')
         else:
-            return render(request, 'account/login.html', {'form': form})
+            return render(request, 'account/login.html', {'form': form, 'title': 'Login', 'value': 'Login'})
     else :
         form = AuthenticationForm()
-        return render(request, 'account/login.html', {'form': form})
+        return render(request, 'account/login.html', {'form': form, 'title': 'Login', 'value': 'Login'})
 
 
 def register(request):
@@ -36,7 +36,9 @@ def register(request):
     else:
         form = CreateUserForm()
     context = {
-        'form': form
+        'form': form,
+        'title': 'Register',
+        'value': 'Register'
     }
     return render(request, 'account/register.html', context)
 

@@ -1,8 +1,13 @@
+from django.utils import timezone
 from django import forms
 from .models import BlogPost
 
 
 class BlogPostModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(BlogPostModelForm, self).__init__(*args, **kwargs)
+        if self.instance.published_date is not None and self.instance.published_date < timezone.localtime(timezone.now()):
+            del self.fields['published_date']
 
     class Meta:
         model = BlogPost
@@ -10,7 +15,8 @@ class BlogPostModelForm(forms.ModelForm):
             'title', 'image', 'slug', 'content', 'published_date'
         ]
         widgets = {
-            'published_date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'value': 'published_date'}, format='%Y-%m-%d %H:%M:%S'),
+            'published_date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'value': 'published_date'},
+                                                  format='%Y-%m-%d %H:%M:%S'),
         }
 
     def clean_title(self, *args, **kwargs):

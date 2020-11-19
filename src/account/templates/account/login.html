@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{%load crispy_forms_tags %}
 
 {% block content %}
-<div class="container-fluid pt-3 ">
+<div class="col-12 col-md-3 mx-auto mb-3">
     {% if form.errors %}
         <p>There is some error in your form.</p>
     {% endif %}
@@ -13,14 +14,14 @@
     <form method="post" action="">
         {% csrf_token %}
         <table>
-        {{ form.as_table }}
-        <tr>
-            <td colspan="2">
-                <p><input type="submit" name="submit" value="Login"></p>
-                <input type="hidden" name="next" value="{{ next }}">
-            </td>
-        </tr>
-    </table>
+            {{ form|crispy}}
+            <tr>
+                <td colspan="2">
+                    <p><input type="submit" name="submit" value="Login"></p>
+                    <input type="hidden" name="next" value="{{ next }}">
+                </td>
+            </tr>
+        </table>
 
     </form>
     <p>Don't have an account? <a href="/blog/register/">Register</a></p>

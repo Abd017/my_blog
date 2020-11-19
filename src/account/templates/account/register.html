@@ -1,7 +1,10 @@
 {% extends "base.html" %}
+{%load crispy_forms_tags %}
+
+{% block head_title %} {{ title }} | {% endblock %}
 
 {% block content %}
-
+<div class="col-12 col-md-3 mx-auto mb-3">
     <form  method="post" action="{% url 'register' %}">
         {% if form.errors %}
             There is an error.
@@ -11,7 +14,7 @@
         {% endif %}
         {% csrf_token %}
         <table>
-            {{ form.as_table }}
+            {{ form|crispy}}
             <tr>
                 <td colspan="2">
                     <input type="submit" name="submit" value="Register">
@@ -19,5 +22,5 @@
             </tr>
         </table>
     </form>
-
+</div>
 {% endblock %}
